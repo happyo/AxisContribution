@@ -123,20 +123,32 @@ public struct AxisContribution<B, F>: View where B: View, F: View {
     private var levelView: some View {
         if constant.showLevelView {
             HStack(spacing: constant.spacing * 0.5) {
-                Text(constant.levelLabel == .moreOrLess ? "Less" : "0")
-                    .font(constant.font)
+                Text(constant.showingLessLabel())
+                    .font(constant.showingLessLabelFont())
+                    .foregroundColor(constant.customLessLabelColor)
                     .opacity(0.6)
                 HStack(spacing: 0) {
-                    ForEach(ACLevel.allCases, id:\.self) { level in
-                        ZStack {
-                            getBackgroundView(nil, nil)
-                            getForegroundView(nil, nil)
-                                .opacity(level.opacity)
-                        }
-                    }.scaleEffect(0.82)
+                    if let levelMap = constant.customLevelMap {
+                        ForEach(levelMap.keys.sorted(), id:\.self) { key in
+                            ZStack {
+                                getBackgroundView(nil, nil)
+                                getForegroundView(nil, nil)
+                                    .opacity(levelMap[key] ?? 1)
+                            }
+                        }.scaleEffect(0.82)
+                    } else {
+                        ForEach(ACLevel.allCases, id:\.self) { level in
+                            ZStack {
+                                getBackgroundView(nil, nil)
+                                getForegroundView(nil, nil)
+                                    .opacity(level.opacity)
+                            }
+                        }.scaleEffect(0.82)
+                    }
                 }
-                Text(constant.levelLabel == .moreOrLess ? "More" : "\(constant.levelSpacing * 4)+")
-                    .font(constant.font)
+                Text(constant.showingMoreLabel())
+                    .font(constant.showingMoreLabelFont())
+                    .foregroundColor(constant.customMoreLabelColor)
                     .opacity(0.6)
             }
         }

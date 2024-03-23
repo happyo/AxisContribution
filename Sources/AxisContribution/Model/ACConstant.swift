@@ -69,6 +69,20 @@ public struct ACConstant: Equatable {
     /// Whether the January month should be replaced by the year
     public var showYearForJan: Bool
     
+    public var customLessLabel: String?
+    
+    public var customMoreLabel: String?
+    
+    public var customLessLabelFont: Font?
+
+    public var customMoreLabelFont: Font?
+    
+    public var customLessLabelColor: Color = Color.gray
+    
+    public var customMoreLabelColor: Color = Color.gray
+    
+    public var customLevelMap: [Int: CGFloat]?
+    
     /// Initializes `ACConstant`
     /// - Parameters:
     ///   - fromDate: The start date to display the list of contributions. The default value is `1 year from today.`.
@@ -88,7 +102,14 @@ public struct ACConstant: Equatable {
                 font: Font = .system(size: 9),
                 showLevelView: Bool = true,
                 levelLabel: ACLevelLavel = .moreOrLess,
-                showYearForJan: Bool = false) {
+                showYearForJan: Bool = false,
+                customLessLabel: String? = nil,
+                customMoreLabel: String? = nil,
+                customLessLabelFont: Font? = nil,
+                customMoreLabelFont: Font? = nil,
+                customLessLabelColor: Color = Color.gray,
+                customMoreLabelColor: Color = Color.gray,
+                customLevelMap: [Int: CGFloat]? = nil) {
         self.fromDate = fromDate == nil ? Date().dateYearAgo : fromDate!
         self.toDate = toDate == nil ? Date() : toDate!
         self.spacing = spacing
@@ -98,6 +119,11 @@ public struct ACConstant: Equatable {
         self.showLevelView = showLevelView
         self.levelLabel = levelLabel
         self.showYearForJan = showYearForJan
+        self.customLessLabel = customLessLabel
+        self.customMoreLabel = customMoreLabel
+        self.customLessLabelColor = customLessLabelColor
+        self.customMoreLabelColor = customMoreLabelColor
+        self.customLevelMap = customLevelMap
     }
     
     public static func == (lhs: Self, rhs: Self) -> Bool {
@@ -108,5 +134,37 @@ public struct ACConstant: Equatable {
         lhs.axisMode == rhs.axisMode &&
         lhs.font == rhs.font &&
         lhs.showLevelView == rhs.showLevelView
+    }
+    
+    public func showingLessLabel() -> String {
+        if let lessLabel = customLessLabel {
+            return lessLabel
+        } else {
+            return levelLabel == .moreOrLess ? "Less" : "0"
+        }
+    }
+    
+    public func showingMoreLabel() -> String {
+        if let moreLabel = customMoreLabel {
+            return moreLabel
+        } else {
+            return levelLabel == .moreOrLess ? "More" : "\(levelSpacing * 4)+"
+        }
+    }
+    
+    public func showingLessLabelFont() -> Font {
+        if let lessFont = customLessLabelFont {
+            return lessFont
+        } else {
+            return font
+        }
+    }
+    
+    public func showingMoreLabelFont() -> Font {
+        if let moreFont = customMoreLabelFont {
+            return moreFont
+        } else {
+            return font
+        }
     }
 }

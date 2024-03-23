@@ -161,18 +161,26 @@ struct ACGridStack<B, F>: View where B: View, F: View {
     /// - Parameter count: The number contributed to the current date.
     /// - Returns: Transparency value.
     private func getOpacity(count: Int) -> CGFloat {
-        if count == 0 {
-            return ACLevel.zero.opacity
-        } else if ACLevel.first.rawValue * store.constant.levelSpacing >= count {
-            return ACLevel.first.opacity
-        } else if ACLevel.second.rawValue * store.constant.levelSpacing >= count {
-            return ACLevel.second.opacity
-        } else if ACLevel.third.rawValue * store.constant.levelSpacing >= count {
-            return ACLevel.third.opacity
-        } else if ACLevel.fourth.rawValue * store.constant.levelSpacing >= count {
-            return ACLevel.fourth.opacity
+        if let levelMap = store.constant.customLevelMap {
+            if let opacity = levelMap[count] {
+                return opacity
+            } else {
+                return 1.0
+            }
+        } else {
+            if count == 0 {
+                return ACLevel.zero.opacity
+            } else if ACLevel.first.rawValue * store.constant.levelSpacing >= count {
+                return ACLevel.first.opacity
+            } else if ACLevel.second.rawValue * store.constant.levelSpacing >= count {
+                return ACLevel.second.opacity
+            } else if ACLevel.third.rawValue * store.constant.levelSpacing >= count {
+                return ACLevel.third.opacity
+            } else if ACLevel.fourth.rawValue * store.constant.levelSpacing >= count {
+                return ACLevel.fourth.opacity
+            }
+            return 1.0
         }
-        return 1.0
     }
 }
 

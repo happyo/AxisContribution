@@ -13,7 +13,7 @@ struct ContentView: View {
     
     @Environment(\.colorScheme) private var colorScheme
     
-    @State private var constant: ACConstant = .init(axisMode: .horizontal, levelLabel: .number)
+    @State private var constant: ACConstant = .init(axisMode: .horizontal, levelLabel: .number, customLessLabel: "sad", customMoreLabel: "happy", customLessLabelColor: Color.red, customMoreLabelColor: Color.red, customLevelMap: [0: 0, 1: 0.5, 2: 1])
     @State private var rowSize: CGFloat = 11
     @State private var rowImageName: String = ""
     @State private var dataSet: [Date: ACData] = [:]
