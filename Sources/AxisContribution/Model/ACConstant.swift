@@ -121,6 +121,8 @@ public struct ACConstant: Equatable {
         self.showYearForJan = showYearForJan
         self.customLessLabel = customLessLabel
         self.customMoreLabel = customMoreLabel
+        self.customLessLabelFont = customLessLabelFont
+        self.customMoreLabelFont = customMoreLabelFont
         self.customLessLabelColor = customLessLabelColor
         self.customMoreLabelColor = customMoreLabelColor
         self.customLevelMap = customLevelMap
